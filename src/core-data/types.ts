@@ -78,25 +78,49 @@ export const EMPTY_COST: UnitCost = {
 // Forge Log's own entities.
 // ---------------------------------------------------------------------------
 
+export type MachineType = "diode" | "co2" | "fiber" | "vinyl";
+
 export interface Machine {
   id: string;
   brand: string;
   model: string;
-  type: "diode" | "co2" | "fiber" | "vinyl";
-  wattageOrForce?: number;
-  bedW: number;
-  bedH: number;
+  type: MachineType;
+  /** Watts for lasers, grams of down-force for cutters. null = unknown. */
+  wattageOrForce: number | null;
+  /** Working area in mm. null = unknown; the app asks rather than guessing. */
+  bedW: number | null;
+  bedH: number | null;
   source: "catalog" | "custom";
   /** Short key written to the shared template's `machine` column: "laser". */
   slug?: string;
+  /**
+   * Whether the user has confirmed the specs. Catalog entries ship false:
+   * they are community-sourced (plan.md §12) and "will my job fit on the bed"
+   * is not a question to answer from an unverified table.
+   */
+  specsVerified: boolean;
+  /** Bench rate for costing, in centavos per hour. */
+  rateCentsPerHour?: Cents;
+  /** Whether this machine is in the user's workshop. */
+  active: boolean;
   notes?: string;
 }
+
+export type MaterialCategory =
+  | "wood"
+  | "acrylic"
+  | "leather"
+  | "vinyl"
+  | "paper"
+  | "metal"
+  | "other";
 
 export interface Material {
   id: string;
   name: string;
-  category: "wood" | "acrylic" | "leather" | "vinyl" | "paper" | "metal" | "other";
+  category: MaterialCategory;
   thickness: number;
+  /** Sheet size in mm. */
   sheetW: number;
   sheetH: number;
   sheetCostCents?: Cents;
@@ -104,17 +128,35 @@ export interface Material {
   notes?: string;
 }
 
+export type Operation = "cut" | "engrave" | "score" | "mark" | "weed";
+
 export interface Setting {
   id: string;
   machineId: string;
   materialId: string;
-  operation: "cut" | "engrave" | "score" | "mark" | "weed";
+  operation: Operation;
+  /** Keys depend on machine type — see lib/params.ts. */
   params: Record<string, number>;
   resultRating: 1 | 2 | 3 | 4 | 5;
+  /** Ids into the photos table. Local blobs until Storage sync (P2). */
   photoRefs: string[];
   notes?: string;
   testedAt: string;
+  /** The user ran this and it worked. Ranks above unverified in search. */
   verified: boolean;
+  updatedAt: string;
+}
+
+/** A test-result photo, compressed client-side and held locally until P2 sync. */
+export interface Photo {
+  id: string;
+  blob: Blob;
+  width: number;
+  height: number;
+  bytes: number;
+  createdAt: string;
+  /** Set once uploaded to Storage (P2). */
+  remoteUrl?: string;
 }
 
 export interface CostingLine {

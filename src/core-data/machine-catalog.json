@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "note": "Community-sourced starting points (plan.md §12). Brand, model and type are reliable; bed size and power are NOT verified and are null wherever they could not be sourced honestly. The app asks you to confirm specs when you activate a machine — do not trust these to answer 'will my job fit'. Values are approximate working areas, not manufacturer tables (plan.md §14).",
+  "machines": [
+    { "id": "xtool-d1", "brand": "xTool", "model": "D1", "type": "diode", "slug": "laser", "wattageOrForce": 10, "bedW": 432, "bedH": 406 },
+    { "id": "xtool-d1-pro", "brand": "xTool", "model": "D1 Pro", "type": "diode", "slug": "laser", "wattageOrForce": 20, "bedW": 430, "bedH": 400 },
+    { "id": "xtool-m1", "brand": "xTool", "model": "M1", "type": "diode", "slug": "laser", "wattageOrForce": 10, "bedW": 385, "bedH": 300 },
+    { "id": "xtool-m2", "brand": "xTool", "model": "M2", "type": "diode", "slug": "laser", "wattageOrForce": null, "bedW": null, "bedH": null },
+    { "id": "xtool-s1", "brand": "xTool", "model": "S1", "type": "diode", "slug": "laser", "wattageOrForce": 20, "bedW": 498, "bedH": 319 },
+    { "id": "xtool-p2", "brand": "xTool", "model": "P2", "type": "co2", "slug": "laser", "wattageOrForce": 55, "bedW": 600, "bedH": 308 },
+    { "id": "xtool-f1", "brand": "xTool", "model": "F1", "type": "fiber", "slug": "laser", "wattageOrForce": 10, "bedW": 115, "bedH": 115 },
+    { "id": "xtool-f2", "brand": "xTool", "model": "F2", "type": "fiber", "slug": "laser", "wattageOrForce": null, "bedW": null, "bedH": null },
+
+    { "id": "glowforge-basic", "brand": "Glowforge", "model": "Basic", "type": "co2", "slug": "laser", "wattageOrForce": 40, "bedW": 495, "bedH": 279 },
+    { "id": "glowforge-plus", "brand": "Glowforge", "model": "Plus", "type": "co2", "slug": "laser", "wattageOrForce": 40, "bedW": 495, "bedH": 279 },
+    { "id": "glowforge-pro", "brand": "Glowforge", "model": "Pro", "type": "co2", "slug": "laser", "wattageOrForce": 45, "bedW": 495, "bedH": 279 },
+    { "id": "glowforge-aura", "brand": "Glowforge", "model": "Aura", "type": "diode", "slug": "laser", "wattageOrForce": 6, "bedW": 305, "bedH": 305 },
+    { "id": "glowforge-spark", "brand": "Glowforge", "model": "Spark", "type": "diode", "slug": "laser", "wattageOrForce": null, "bedW": null, "bedH": null },
+
+    { "id": "omtech-k40", "brand": "OMTech", "model": "K40+", "type": "co2", "slug": "laser", "wattageOrForce": 40, "bedW": 300, "bedH": 200 },
+    { "id": "omtech-polar", "brand": "OMTech", "model": "Polar 350", "type": "co2", "slug": "laser", "wattageOrForce": 50, "bedW": 500, "bedH": 300 },
+    { "id": "omtech-af2028", "brand": "OMTech", "model": "AF2028-60", "type": "co2", "slug": "laser", "wattageOrForce": 60, "bedW": 700, "bedH": 500 },
+    { "id": "omtech-af3555", "brand": "OMTech", "model": "AF3555-100", "type": "co2", "slug": "laser", "wattageOrForce": 100, "bedW": 1400, "bedH": 900 },
+
+    { "id": "atomstack-a5", "brand": "Atomstack", "model": "A5 Pro", "type": "diode", "slug": "laser", "wattageOrForce": 5, "bedW": 410, "bedH": 400 },
+    { "id": "atomstack-x20", "brand": "Atomstack", "model": "X20 Pro", "type": "diode", "slug": "laser", "wattageOrForce": 20, "bedW": 400, "bedH": 400 },
+    { "id": "sculpfun-s9", "brand": "Sculpfun", "model": "S9", "type": "diode", "slug": "laser", "wattageOrForce": 5, "bedW": 410, "bedH": 420 },
+    { "id": "sculpfun-s30", "brand": "Sculpfun", "model": "S30 Pro Max", "type": "diode", "slug": "laser", "wattageOrForce": 20, "bedW": 410, "bedH": 400 },
+    { "id": "creality-falcon-5", "brand": "Creality", "model": "Falcon 5W", "type": "diode", "slug": "laser", "wattageOrForce": 5, "bedW": 400, "bedH": 415 },
+    { "id": "creality-falcon2-22", "brand": "Creality", "model": "Falcon2 22W", "type": "diode", "slug": "laser", "wattageOrForce": 22, "bedW": 400, "bedH": 415 },
+    { "id": "longer-ray5", "brand": "Longer", "model": "Ray5 10W", "type": "diode", "slug": "laser", "wattageOrForce": 10, "bedW": 400, "bedH": 400 },
+    { "id": "monport-40", "brand": "Monport", "model": "40W Pro", "type": "co2", "slug": "laser", "wattageOrForce": 40, "bedW": 300, "bedH": 200 },
+    { "id": "monport-80", "brand": "Monport", "model": "80W", "type": "co2", "slug": "laser", "wattageOrForce": 80, "bedW": 700, "bedH": 500 },
+    { "id": "thunder-nova-24", "brand": "Thunder Laser", "model": "Nova 24", "type": "co2", "slug": "laser", "wattageOrForce": 60, "bedW": 600, "bedH": 400 },
+    { "id": "thunder-nova-35", "brand": "Thunder Laser", "model": "Nova 35", "type": "co2", "slug": "laser", "wattageOrForce": 80, "bedW": 900, "bedH": 600 },
+    { "id": "gweike-cloud-pro", "brand": "Gweike", "model": "Cloud Pro II", "type": "co2", "slug": "laser", "wattageOrForce": 50, "bedW": 500, "bedH": 300 },
+
+    { "id": "cameo-4", "brand": "Silhouette", "model": "Cameo 4", "type": "vinyl", "slug": "cameo", "wattageOrForce": 5000, "bedW": 305, "bedH": 3000 },
+    { "id": "cameo-5", "brand": "Silhouette", "model": "Cameo 5", "type": "vinyl", "slug": "cameo", "wattageOrForce": 5000, "bedW": 305, "bedH": 3000 },
+    { "id": "cameo-5plus", "brand": "Silhouette", "model": "Cameo 5 Plus", "type": "vinyl", "slug": "cameo", "wattageOrForce": 5000, "bedW": 381, "bedH": 3000 },
+    { "id": "cameo-5-alpha", "brand": "Silhouette", "model": "Cameo 5α", "type": "vinyl", "slug": "cameo", "wattageOrForce": null, "bedW": null, "bedH": null },
+    { "id": "portrait-4", "brand": "Silhouette", "model": "Portrait 4", "type": "vinyl", "slug": "cameo", "wattageOrForce": 5000, "bedW": 203, "bedH": 3000 },
+    { "id": "cricut-maker-3", "brand": "Cricut", "model": "Maker 3", "type": "vinyl", "slug": "cameo", "wattageOrForce": 4000, "bedW": 305, "bedH": 3600 },
+    { "id": "cricut-maker-4", "brand": "Cricut", "model": "Maker 4", "type": "vinyl", "slug": "cameo", "wattageOrForce": null, "bedW": null, "bedH": null },
+    { "id": "cricut-explore-3", "brand": "Cricut", "model": "Explore 3", "type": "vinyl", "slug": "cameo", "wattageOrForce": 400, "bedW": 305, "bedH": 3600 },
+    { "id": "cricut-joy-xtra", "brand": "Cricut", "model": "Joy Xtra", "type": "vinyl", "slug": "cameo", "wattageOrForce": null, "bedW": 216, "bedH": 1200 },
+    { "id": "brother-sdx", "brand": "Brother", "model": "ScanNCut SDX125", "type": "vinyl", "slug": "cameo", "wattageOrForce": 1000, "bedW": 305, "bedH": 305 },
+    { "id": "brother-dx", "brand": "Brother", "model": "ScanNCut DX", "type": "vinyl", "slug": "cameo", "wattageOrForce": null, "bedW": 305, "bedH": 305 }
+  ]
+}
