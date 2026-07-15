@@ -176,6 +176,31 @@ export interface Costing {
   };
 }
 
+/**
+ * A reusable cost pattern — "leather keychain", "small candle" — applied to
+ * many products at once.
+ *
+ * It stores the *inputs* (which sheet, how much of it, how many minutes) rather
+ * than a frozen total, so re-applying after a material price rises produces the
+ * new cost instead of the old one. Margin and fee are deliberately absent: they
+ * are decisions per product, not properties of how a thing is made.
+ */
+export interface CostRecipe {
+  id: string;
+  name: string;
+  materialLines: { materialId: string; usagePct: number }[];
+  machineLines: { machineId: string; minutes: number }[];
+  laborMinutes: number;
+  laborRateCentsPerHour?: Cents;
+  consumables: { label: string; cents: Cents }[];
+  packagingCents: Cents;
+  setupMinutes: number;
+  /** Batch the setup time is spread across. */
+  batchQty: number;
+  notes?: string;
+  updatedAt: string;
+}
+
 // v1.5
 export interface Offcut {
   id: string;

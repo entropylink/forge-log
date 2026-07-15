@@ -644,3 +644,85 @@ input[type="range"] {
     transition: none !important;
   }
 }
+
+/* --- bulk cost grid ------------------------------------------------------- */
+
+.bulk-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.bulk-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface-2);
+  color: var(--text-dim);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 8px 6px;
+  text-align: right;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--line);
+}
+
+.bulk-table td {
+  padding: 2px 4px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.bulk-table tr.sel {
+  background: rgb(224 105 42 / 0.10);
+}
+
+.bulk-table td.name-cell {
+  text-align: left;
+  min-width: 190px;
+  padding: 6px;
+}
+
+.bulk-table td.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Compact cells: 61 rows x 5 inputs, so the default 52px target would make the
+   grid unusable. This is a desk task, not a bench task. */
+.bulk-table input.cell {
+  width: 68px;
+  min-height: 34px;
+  padding: 0 6px;
+  text-align: right;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+}
+
+.bulk-table input.cell:focus {
+  border-color: var(--ember);
+  background: var(--surface-2);
+}
+
+.bulk-table input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--ember);
+}
+
+.bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface-3);
+  overflow: hidden;
+}
+
+.bar > span {
+  display: block;
+  height: 100%;
+}

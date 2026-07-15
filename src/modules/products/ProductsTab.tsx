@@ -16,6 +16,7 @@ import {
   type ImportResult,
 } from "../../lib/csv";
 import { config } from "../../config";
+import { formatInferred, formatIssue } from "../../lib/issues";
 import { tierOf, useMachines, useProducts, useTierMap, useTiers } from "../../lib/hooks";
 import { formatMXN, formatMXNCompact } from "../../lib/money";
 import {
@@ -609,7 +610,7 @@ function ImportReport({
             <strong>{t("product.inferred")}</strong>
             <ul style={{ margin: "6px 0 0", paddingLeft: 18 }}>
               {report.inferred.map((line) => (
-                <li key={line}>{line}</li>
+                <li key={line.index}>{formatInferred(t, line)}</li>
               ))}
             </ul>
           </div>
@@ -621,12 +622,12 @@ function ImportReport({
           </div>
         ) : null}
 
-        {report.errors.length > 0 ? (
+        {report.issues.length > 0 ? (
           <div className="warn-box" style={{ borderColor: "var(--danger)", color: "var(--danger)" }}>
-            <strong>{t("product.importErrors", { count: report.errors.length })}</strong>
+            <strong>{t("product.importErrors", { count: report.issues.length })}</strong>
             <ul style={{ margin: "6px 0 0", paddingLeft: 18 }}>
-              {report.errors.slice(0, 12).map((line) => (
-                <li key={line}>{line}</li>
+              {report.issues.slice(0, 12).map((issue, i) => (
+                <li key={i}>{formatIssue(t, issue)}</li>
               ))}
             </ul>
           </div>

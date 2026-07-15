@@ -5,6 +5,7 @@ import Dexie, { type Table } from "dexie";
 import { catalogMachines, CATALOG_VERSION } from "./catalog";
 import type {
   Costing,
+  CostRecipe,
   Machine,
   Material,
   Offcut,
@@ -22,6 +23,7 @@ export class ForgeLogDB extends Dexie {
   tiers!: Table<Tier, string>;
   products!: Table<Product, string>;
   costings!: Table<Costing, string>;
+  recipes!: Table<CostRecipe, string>;
   offcuts!: Table<Offcut, string>;
 
   constructor() {
@@ -36,6 +38,10 @@ export class ForgeLogDB extends Dexie {
       costings: "id, productId",
       offcuts: "id, materialId",
     });
+
+    // v2: reusable cost recipes for bulk costing. Additive — Dexie carries the
+    // existing tables forward untouched.
+    this.version(2).stores({ recipes: "id, name" });
   }
 }
 

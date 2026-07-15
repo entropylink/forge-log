@@ -53,7 +53,7 @@ describe("importing the vendor's real sheet as a catalog", () => {
   const result = importCatalogCSV(REAL_CSV);
 
   it("imports every product without errors", () => {
-    expect(result.errors).toEqual([]);
+    expect(result.issues).toEqual([]);
     expect(result.products).toHaveLength(61);
   });
 
@@ -89,7 +89,7 @@ describe("exporting the catalog", () => {
 
   it("round-trips through its own importer", () => {
     const back = importCatalogCSV(exported);
-    expect(back.errors).toEqual([]);
+    expect(back.issues).toEqual([]);
     expect(back.tiers).toEqual(tiers);
     expect(back.products).toEqual(products);
   });

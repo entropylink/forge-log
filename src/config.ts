@@ -45,6 +45,11 @@ export const config = {
     defaultLaborRateCentsPerHour: 15000, // $150/h
     /** Platform fee % applied to the selling price (Etsy et al). */
     defaultFeePct: 0,
+    /**
+     * Margin below which a costed product is flagged for a second look. Not a
+     * verdict — some things are loss leaders on purpose — just a nudge.
+     */
+    thinMarginPct: 20,
   },
 
   /**

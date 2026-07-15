@@ -6,6 +6,7 @@ import { db } from "./dexie";
 import { config } from "../config";
 import type {
   Costing,
+  CostRecipe,
   Machine,
   Material,
   Photo,
@@ -74,6 +75,13 @@ export function tierOf(tiers: Map<string, Tier>, tierId: string): Tier {
 
 export function useCostings(): Costing[] | undefined {
   return useLiveQuery(() => db.costings.toArray(), []);
+}
+
+export function useRecipes(): CostRecipe[] | undefined {
+  return useLiveQuery(
+    async () => (await db.recipes.toArray()).sort((a, b) => a.name.localeCompare(b.name)),
+    [],
+  );
 }
 
 export function useCostingForProduct(productId: string | null): Costing | undefined {

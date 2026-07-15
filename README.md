@@ -36,6 +36,9 @@ npm run build
   price, not a markup on cost**, and **platform fees come out of the price**, so
   the price is solved for rather than piled up: `price × (1 − fee% − margin%) = cost`.
   Treating the fee as a cost line under-prices every time.
+- `src/lib/bulk.ts` — costing a catalog rather than a product. Recipes go through
+  the same engine as the single-product form, so a figure never depends on which
+  screen produced it.
 - `src/lib/money.ts` — integer centavos, never floats. Shares its convention with
   Booth Mode so a figure derived in either app is the same figure.
 - `src/lib/search.ts` — "3mm birch cut" → the setting you meant. Relevance first,
@@ -77,6 +80,25 @@ Margin is `null` rather than a fake 100%; an impossible margin (margin + fee ≥
 100%) is refused rather than turned into a vast number; USD is hidden until you
 set a rate, because there's no network at the bench and a stale rate misprices
 everything.
+
+## Costing a catalog
+
+Cost → **Bulk**. Three speeds, because 61 uncosted products is a different job
+from one:
+
+1. **Apply** — filter (machine, tier, uncosted), select, and push one cost onto
+   all of them, from a saved **recipe**, from a product you already costed, or
+   typed in. The preview says how many it will touch, how many it overwrites,
+   and **which products the cost would price below water** — before you click.
+2. **Type** — the grid. Five cells per row, tab across, commit on blur, with the
+   margin recomputing live per row and thin margins going amber.
+3. **Spreadsheet** — export the uncosted, fill the cost columns in Excel, import
+   it back. The template round-trips, so this is often fastest of all.
+
+A recipe stores *how a thing is made* (which sheet, how much of it, how many
+minutes), not a frozen total — so re-applying after a material price rises gives
+the new cost. Margin and fee aren't in it: what to charge is a decision per
+product, not a property of the making.
 
 ## Known gaps
 

@@ -21,6 +21,8 @@ import {
   serializeTemplateCSV,
   stripDiacritics,
   TEMPLATE_HEADER,
+  type InferredColumn,
+  type TemplateIssue,
   type TemplateOutRow,
 } from "../core-data/template";
 import type { Cents, Product, Tier, UnitCost } from "../core-data/types";
@@ -30,8 +32,9 @@ export const NO_VARIANT = "—";
 export interface ImportResult {
   tiers: Tier[];
   products: Product[];
-  errors: string[];
-  inferred: string[];
+  /** Structured so each app can phrase them in its own language. */
+  issues: TemplateIssue[];
+  inferred: InferredColumn[];
   unknownColumns: string[];
 }
 
@@ -73,7 +76,7 @@ export function retailPriceFromHouse(housePriceCents: Cents): Cents {
 
 export function importCatalogCSV(text: string): ImportResult {
   const parsed = parseTemplateCSV(text);
-  const errors = [...parsed.errors];
+  const issues = [...parsed.issues];
 
   const tiersById = new Map<string, Tier>();
   const productsById = new Map<string, Product>();
@@ -103,7 +106,7 @@ export function importCatalogCSV(text: string): ImportResult {
       sellingPriceCents = retailPriceFromHouse(row.housePriceCents);
     }
     if (sellingPriceCents === null) {
-      errors.push(`Fila ${row.rowNum}: ${row.product} sin precio`);
+      issues.push({ kind: "bad-value", row: row.rowNum, column: "selling_price", value: "" });
       continue;
     }
 
@@ -111,9 +114,7 @@ export function importCatalogCSV(text: string): ImportResult {
     if (row.sku !== "") {
       const claimedBy = seenSku.get(row.sku);
       if (claimedBy !== undefined && claimedBy !== row.product) {
-        errors.push(
-          `Fila ${row.rowNum}: SKU ${row.sku} usado por "${claimedBy}" y "${row.product}"`,
-        );
+        issues.push({ kind: "bad-value", row: row.rowNum, column: "sku", value: row.sku });
         continue;
       }
       seenSku.set(row.sku, row.product);
@@ -155,7 +156,7 @@ export function importCatalogCSV(text: string): ImportResult {
   return {
     tiers: [...tiersById.values()],
     products: [...productsById.values()],
-    errors,
+    issues,
     inferred: parsed.inferred,
     unknownColumns: parsed.unknownColumns,
   };

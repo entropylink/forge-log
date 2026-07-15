@@ -30,6 +30,7 @@ import {
   useT,
   useToast,
 } from "../../ui/common";
+import { BulkCostView } from "./BulkCostView";
 const EMPTY_INPUT: CostingInput = {
   materialLines: [],
   machineLines: [],
@@ -41,7 +42,29 @@ const EMPTY_INPUT: CostingInput = {
   roundToPretty: false,
 };
 
+type Mode = "bulk" | "single";
+
 export function CostTab(): ReactNode {
+  const t = useT();
+  // Bulk is the default: a catalog arrives with every product uncosted, and
+  // costing them one at a time is the problem this tab exists to avoid.
+  const [mode, setMode] = useState<Mode>("bulk");
+
+  return (
+    <>
+      <div className="seg" style={{ marginBottom: 12 }}>
+        {(["bulk", "single"] as Mode[]).map((m) => (
+          <button key={m} type="button" aria-pressed={mode === m} onClick={() => setMode(m)}>
+            {t(`cost.mode.${m}`)}
+          </button>
+        ))}
+      </div>
+      {mode === "bulk" ? <BulkCostView /> : <SingleCostView />}
+    </>
+  );
+}
+
+function SingleCostView(): ReactNode {
   const t = useT();
   const products = useProducts();
   const materials = useMaterials();
