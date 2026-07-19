@@ -10,3 +10,4 @@ ios/
 .vite/
 coverage/
 *.tsbuildinfo
+dev-dist/
