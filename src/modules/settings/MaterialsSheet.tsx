@@ -2,7 +2,7 @@
 // without one is flagged rather than silently costing zero.
 
 import { useState, type ReactNode } from "react";
-import { db, newId } from "../../lib/dexie";
+import { db, newId, softDelete } from "../../lib/dexie";
 import { useMaterials } from "../../lib/hooks";
 import { formatMXN } from "../../lib/money";
 import { MoneyInput, NumberInput, Sheet, useT } from "../../ui/common";
@@ -110,7 +110,7 @@ function MaterialForm({
 
   async function remove(): Promise<void> {
     if (!material) return;
-    await db.materials.delete(material.id);
+    await softDelete("materials", material.id);
     onSaved();
   }
 

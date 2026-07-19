@@ -6,7 +6,7 @@
 // product, not a property of the making.
 
 import { useState, type ReactNode } from "react";
-import { db, newId } from "../../lib/dexie";
+import { db, newId, softDelete } from "../../lib/dexie";
 import { emptyRecipe, recipeUnitCostCents } from "../../lib/bulk";
 import { machineLabel } from "../../lib/catalog";
 import { useActiveMachines, useMachineRates, useMaterials } from "../../lib/hooks";
@@ -69,7 +69,7 @@ export function RecipeSheet({
 
   async function remove(): Promise<void> {
     if (!recipe) return;
-    await db.recipes.delete(recipe.id);
+    await softDelete("recipes", recipe.id);
     onSaved(recipe.name);
   }
 

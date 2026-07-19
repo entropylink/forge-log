@@ -6,7 +6,7 @@
 // core-data/types.ts).
 
 import { useRef, useState, type ReactNode } from "react";
-import { db, newId } from "../../lib/dexie";
+import { db, newId, softDelete } from "../../lib/dexie";
 import {
   emptyTemplateCSV,
   exportCatalogCSV,
@@ -335,7 +335,7 @@ function TierForm({
     if (!tier) return;
     // Deleting a tier that products still use would orphan them.
     if (usedBy > 0) return setError(t("tier.deleteBlocked", { n: usedBy }));
-    await db.tiers.delete(tier.id);
+    await softDelete("tiers", tier.id);
     onSaved();
   }
 
@@ -464,7 +464,7 @@ function ProductForm({
 
   async function remove(): Promise<void> {
     if (!product) return;
-    await db.products.delete(product.id);
+    await softDelete("products", product.id);
     onSaved(product.name);
   }
 

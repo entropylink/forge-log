@@ -6,7 +6,7 @@
 // confirming its specs, rather than quietly adopting numbers nobody checked.
 
 import { useState, type ReactNode } from "react";
-import { db, newId } from "../../lib/dexie";
+import { db, newId, softDelete } from "../../lib/dexie";
 import { machineLabel, needsSpecConfirmation } from "../../lib/catalog";
 import { useMachines } from "../../lib/hooks";
 import { formatMXN } from "../../lib/money";
@@ -193,7 +193,7 @@ function MachineForm({
     if (!machine) return;
     // Catalog entries go back to the catalog; custom ones are deleted.
     if (isCatalog) await db.machines.update(machine.id, { active: false });
-    else await db.machines.delete(machine.id);
+    else await softDelete("machines", machine.id);
     onSaved();
   }
 

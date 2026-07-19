@@ -28,6 +28,8 @@ export interface Tier {
   sortOrder: number;
   color: string;
   notes?: string;
+  /** LWW sync clock (ISO8601). Stamped by the Dexie write hooks — see sync/. */
+  updatedAt?: string;
 }
 
 /** Per-unit cost breakdown. Mirrors the Costing line types below. */
@@ -64,6 +66,8 @@ export interface Product {
   active: boolean;
   notes?: string;
   costingRef?: string;
+  /** LWW sync clock (ISO8601). Stamped by the Dexie write hooks — see sync/. */
+  updatedAt?: string;
 }
 
 export const EMPTY_COST: UnitCost = {
@@ -104,6 +108,8 @@ export interface Machine {
   /** Whether this machine is in the user's workshop. */
   active: boolean;
   notes?: string;
+  /** LWW sync clock (ISO8601). Stamped by the Dexie write hooks — see sync/. */
+  updatedAt?: string;
 }
 
 export type MaterialCategory =
@@ -126,6 +132,8 @@ export interface Material {
   sheetCostCents?: Cents;
   supplier?: string;
   notes?: string;
+  /** LWW sync clock (ISO8601). Stamped by the Dexie write hooks — see sync/. */
+  updatedAt?: string;
 }
 
 export type Operation = "cut" | "engrave" | "score" | "mark" | "weed";
@@ -174,6 +182,8 @@ export interface Costing {
     costCents: Cents;
     suggestedPriceCents: Cents;
   };
+  /** LWW sync clock (ISO8601). Stamped by the Dexie write hooks — see sync/. */
+  updatedAt?: string;
 }
 
 /**

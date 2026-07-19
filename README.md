@@ -11,7 +11,7 @@ Full spec: [plan.md](./plan.md)
 |---|---|---|
 | P0 | Scaffold, core-data schemas, tokens, i18n, Dexie | done |
 | P1 | Machine catalog + Material + Settings CRUD, offline, search (M1) | done |
-| P2 | Photo capture→compress→Storage; Auth + Firestore sync | capture + compression done; **sync/auth need a Firebase project** |
+| P2 | Photo capture→compress→Storage; Auth + Firestore sync | capture + compression + **Auth + Firestore sync done** (opt-in); Storage upload still pending |
 | P3 | Costing module (M2) | done |
 | P4 | Stripe billing + trial gating | not started (needs a Stripe account) |
 | P5 | Capacitor builds, store metadata | not started (needs devices/store accounts) |
@@ -47,6 +47,17 @@ npm run build
   and a vinyl cutter share only "speed", so the form is generated, not branched.
 - `src/core-data/template.ts` — the CSV contract with Booth Mode, **byte-identical**
   to `../booth-mode/src/core-data/template.ts`.
+
+## Sync (opt-in, P2 half)
+
+Off until you connect a Firebase project — see
+[docs/firebase-setup.md](docs/firebase-setup.md). With no config, firebase isn't
+even loaded. `src/sync/{merge,engine,fake,firestore}.ts` are **shared
+byte-for-byte with Booth Mode**: definitions merge last-write-wins by
+`updatedAt`, deletes propagate as tombstones, and the whole flow is tested
+against in-memory fakes. `src/lib/firebase.ts` takes runtime config (pasted into
+the app) so connecting a project needs no rebuild. Storage (photo upload) is the
+remaining P2 piece.
 
 ## The suite loop
 
