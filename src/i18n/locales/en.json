@@ -22,6 +22,7 @@
     "no": "No",
     "required": "Required",
     "invalidAmount": "Invalid amount",
+    "invalidVariant": "A variant name cannot start and end with “__”.",
     "unknown": "Unknown",
     "none": "None",
     "search": "Search",
