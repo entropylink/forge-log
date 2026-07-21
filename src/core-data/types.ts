@@ -7,6 +7,10 @@
 //
 // All money fields are integer CENTAVOS.
 
+// Type-only (erased at compile) — lets a saved Costing carry the exact editor
+// input so re-opening Cost reloads what was entered. No runtime dependency.
+import type { CostingInput } from "../lib/costing";
+
 export type Cents = number;
 
 // ---------------------------------------------------------------------------
@@ -178,6 +182,9 @@ export interface Costing {
   productId?: string;
   lines: CostingLine[];
   marginPct: number;
+  /** The full editor input, so re-opening Cost reloads exactly what was entered.
+   *  Optional: records written before this existed fall back to a blank form. */
+  input?: CostingInput;
   computed?: {
     costCents: Cents;
     suggestedPriceCents: Cents;

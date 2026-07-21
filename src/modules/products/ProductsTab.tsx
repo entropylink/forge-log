@@ -51,14 +51,20 @@ export function ProductsTab(): ReactNode {
   if (!products || !tiers) return <p className="muted">{t("app.loading")}</p>;
 
   async function onImport(file: File): Promise<void> {
-    const result = importCatalogCSV(await file.text());
-    if (result.products.length === 0) {
+    // Wrapped: a parse error or a Dexie write that throws (e.g. QuotaExceeded)
+    // must surface, not silently fail while the report implies success.
+    try {
+      const result = importCatalogCSV(await file.text());
+      if (result.products.length === 0) {
+        setReport(result);
+        return;
+      }
+      await db.tiers.bulkPut(result.tiers);
+      await db.products.bulkPut(result.products);
       setReport(result);
-      return;
+    } catch (e) {
+      showToast(t("common.importError", { error: e instanceof Error ? e.message : String(e) }), "error");
     }
-    await db.tiers.bulkPut(result.tiers);
-    await db.products.bulkPut(result.products);
-    setReport(result);
   }
 
   function onExport(): void {
@@ -265,7 +271,7 @@ export function ProductsTab(): ReactNode {
         />
       ) : null}
 
-      <Toast message={toast} />
+      <Toast toast={toast} />
     </>
   );
 }
