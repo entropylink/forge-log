@@ -23,6 +23,10 @@
   --ok: #57c98a;
   --warn: #e0a33f;
 
+  /* Row tints — plain rgba so they render on every Safari, not just 16.2+. */
+  --tint-todo: rgba(224, 163, 63, 0.13);
+  --tint-done: rgba(87, 201, 138, 0.14);
+
   --font-display: "Cinzel", Georgia, serif;
   --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", "Consolas", monospace;
@@ -655,10 +659,10 @@ input[type="range"] {
 
 /* Amber = still to cost, green = costed. Mirrors Booth Mode's plan tint. */
 .product-row.todo {
-  background: color-mix(in srgb, var(--warn) 10%, transparent);
+  background: var(--tint-todo);
 }
 .product-row.done {
-  background: color-mix(in srgb, var(--ok) 10%, transparent);
+  background: var(--tint-done);
 }
 
 .kpi-grid {
