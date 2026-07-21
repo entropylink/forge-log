@@ -1,11 +1,11 @@
 {
-  "version": 1,
-  "note": "Community-sourced starting points (plan.md §12). Brand, model and type are reliable; bed size and power are NOT verified and are null wherever they could not be sourced honestly. The app asks you to confirm specs when you activate a machine — do not trust these to answer 'will my job fit'. Values are approximate working areas, not manufacturer tables (plan.md §14).",
+  "version": 2,
+  "note": "Community-sourced starting points (plan.md §12). Brand, model and type are reliable; bed size and power are NOT verified and are null wherever they could not be sourced honestly. The app asks you to confirm specs when you activate a machine — do not trust these to answer 'will my job fit'. Values are approximate working areas, not manufacturer tables (plan.md §14). v2 adds sourced starting specs for the xTool M2 (426×320 mm, 10 W diode) and Silhouette Cameo 5α (305 mm width, 5000 gf); still unverified until you confirm.",
   "machines": [
     { "id": "xtool-d1", "brand": "xTool", "model": "D1", "type": "diode", "slug": "laser", "wattageOrForce": 10, "bedW": 432, "bedH": 406 },
     { "id": "xtool-d1-pro", "brand": "xTool", "model": "D1 Pro", "type": "diode", "slug": "laser", "wattageOrForce": 20, "bedW": 430, "bedH": 400 },
     { "id": "xtool-m1", "brand": "xTool", "model": "M1", "type": "diode", "slug": "laser", "wattageOrForce": 10, "bedW": 385, "bedH": 300 },
-    { "id": "xtool-m2", "brand": "xTool", "model": "M2", "type": "diode", "slug": "laser", "wattageOrForce": null, "bedW": null, "bedH": null },
+    { "id": "xtool-m2", "brand": "xTool", "model": "M2", "type": "diode", "slug": "laser", "wattageOrForce": 10, "bedW": 426, "bedH": 320 },
     { "id": "xtool-s1", "brand": "xTool", "model": "S1", "type": "diode", "slug": "laser", "wattageOrForce": 20, "bedW": 498, "bedH": 319 },
     { "id": "xtool-p2", "brand": "xTool", "model": "P2", "type": "co2", "slug": "laser", "wattageOrForce": 55, "bedW": 600, "bedH": 308 },
     { "id": "xtool-f1", "brand": "xTool", "model": "F1", "type": "fiber", "slug": "laser", "wattageOrForce": 10, "bedW": 115, "bedH": 115 },
@@ -38,7 +38,7 @@
     { "id": "cameo-4", "brand": "Silhouette", "model": "Cameo 4", "type": "vinyl", "slug": "cameo", "wattageOrForce": 5000, "bedW": 305, "bedH": 3000 },
     { "id": "cameo-5", "brand": "Silhouette", "model": "Cameo 5", "type": "vinyl", "slug": "cameo", "wattageOrForce": 5000, "bedW": 305, "bedH": 3000 },
     { "id": "cameo-5plus", "brand": "Silhouette", "model": "Cameo 5 Plus", "type": "vinyl", "slug": "cameo", "wattageOrForce": 5000, "bedW": 381, "bedH": 3000 },
-    { "id": "cameo-5-alpha", "brand": "Silhouette", "model": "Cameo 5α", "type": "vinyl", "slug": "cameo", "wattageOrForce": null, "bedW": null, "bedH": null },
+    { "id": "cameo-5-alpha", "brand": "Silhouette", "model": "Cameo 5α", "type": "vinyl", "slug": "cameo", "wattageOrForce": 5000, "bedW": 305, "bedH": 3000 },
     { "id": "portrait-4", "brand": "Silhouette", "model": "Portrait 4", "type": "vinyl", "slug": "cameo", "wattageOrForce": 5000, "bedW": 203, "bedH": 3000 },
     { "id": "cricut-maker-3", "brand": "Cricut", "model": "Maker 3", "type": "vinyl", "slug": "cameo", "wattageOrForce": 4000, "bedW": 305, "bedH": 3600 },
     { "id": "cricut-maker-4", "brand": "Cricut", "model": "Maker 4", "type": "vinyl", "slug": "cameo", "wattageOrForce": null, "bedW": null, "bedH": null },

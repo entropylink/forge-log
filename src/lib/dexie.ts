@@ -123,9 +123,32 @@ export async function seedCatalog(): Promise<void> {
   const count = await db.machines.count();
   if (count > 0 && seenVersion >= CATALOG_VERSION) return;
 
-  const existing = new Set((await db.machines.toArray()).map((m) => m.id));
-  const toAdd = catalogMachines().filter((m) => !existing.has(m.id));
+  const local = await db.machines.toArray();
+  const existing = new Set(local.map((m) => m.id));
+  const catalog = catalogMachines();
+
+  const toAdd = catalog.filter((m) => !existing.has(m.id));
   if (toAdd.length > 0) await db.machines.bulkAdd(toAdd);
+
+  // Backfill specs a newer pack has filled in, but ONLY into untouched catalog
+  // rows: still sourced from the catalog, not yet confirmed, and still null on
+  // that field. This upgrades a null placeholder to a real starting point (e.g.
+  // the xTool M2 / Cameo 5α beds now shipped in v2) on installs that already
+  // seeded the machine as null — a null → value fill only, so it never
+  // overwrites a size the user activated, verified, or corrected themselves.
+  const fromCatalog = new Map(catalog.map((m) => [m.id, m]));
+  for (const m of local) {
+    if (m.source !== "catalog" || m.specsVerified) continue;
+    const c = fromCatalog.get(m.id);
+    if (!c) continue;
+    const patch: Partial<Machine> = {};
+    if (m.bedW === null && c.bedW !== null) patch.bedW = c.bedW;
+    if (m.bedH === null && c.bedH !== null) patch.bedH = c.bedH;
+    if (m.wattageOrForce === null && c.wattageOrForce !== null) {
+      patch.wattageOrForce = c.wattageOrForce;
+    }
+    if (Object.keys(patch).length > 0) await db.machines.update(m.id, patch);
+  }
 
   localStorage.setItem(CATALOG_KEY, String(CATALOG_VERSION));
 }
