@@ -200,7 +200,7 @@ export function ProductsTab(): ReactNode {
               const margin = cost === 0 ? null : product.sellingPriceCents - cost;
               return (
                 <div
-                  className="product-row"
+                  className={`product-row ${cost > 0 ? "done" : "todo"}`}
                   key={product.id}
                   role="button"
                   tabIndex={0}
