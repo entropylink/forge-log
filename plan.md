@@ -2,8 +2,16 @@
 
 > **Maker OS for laser & vinyl workshops**: material settings library, job costing, quotes→commissions (Bench), offcut inventory (Scrap Yard). One app, four modules, shared data with Booth Mode.
 >
-> Status: planned · Source: Fable 5 planning session 2026-07-12 · Score 17/20 (rank #1)
+> Status: **built — v1 core offline (P0, P1, P3 complete; P2 partial)** · Source: Fable 5 planning session 2026-07-12 · Score 17/20 (rank #1)
 > Suggested vault path: `domains/products/apps/forge-log/plan.md`
+>
+> **Estado real (2026-07-18):**
+> - Built: P0, P1, P3 complete; from P2 only photo capture + client-side compression; 94 unit tests green.
+> - No pnpm monorepo — the `core-data` contract is duplicated byte-identical across the two repos, guarded by an interop test (decision documented in code; differs from §4).
+> - Not a PWA yet.
+> - Firebase scaffolded but unused (dead code; config via env vars).
+> - The §8 "CI grep check" does not exist.
+> - `runs/` unused; P4–P7 not started.
 
 ---
 

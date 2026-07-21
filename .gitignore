@@ -11,3 +11,4 @@ ios/
 coverage/
 *.tsbuildinfo
 dev-dist/
+.firebase/
