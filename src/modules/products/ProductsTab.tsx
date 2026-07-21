@@ -18,6 +18,7 @@ import {
 import { config } from "../../config";
 import { formatInferred, formatIssue } from "../../lib/issues";
 import { tierOf, useMachines, useProducts, useTierMap, useTiers } from "../../lib/hooks";
+import { viewProducts, SORT_KEYS, type SortKey } from "../../lib/product-view";
 import { formatMXN, formatMXNCompact } from "../../lib/money";
 import {
   EmptyState,
@@ -40,6 +41,9 @@ export function ProductsTab(): ReactNode {
   const [editing, setEditing] = useState<Product | null>(null);
   const [creating, setCreating] = useState(false);
   const [showTiers, setShowTiers] = useState(false);
+  const [query, setQuery] = useState("");
+  const [filterTier, setFilterTier] = useState("");
+  const [sort, setSort] = useState<SortKey>("name");
   const [report, setReport] = useState<ImportResult | null>(null);
   const [toast, showToast] = useToast();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -71,6 +75,11 @@ export function ProductsTab(): ReactNode {
   }
 
   const costed = products.filter((p) => totalUnitCost(p.cost) > 0).length;
+  const shown = viewProducts(
+    products,
+    { query, tierId: filterTier, sort },
+    (id) => tierMap.get(id)?.sortOrder ?? 999,
+  );
 
   return (
     <>
@@ -107,6 +116,45 @@ export function ProductsTab(): ReactNode {
         <p className="faint" style={{ marginBottom: 0 }}>
           {t("product.exportHint")}
         </p>
+        {products.length > 0 ? (
+          <div className="row wrap" style={{ gap: 8, marginTop: 10 }}>
+            <input
+              type="text"
+              value={query}
+              placeholder={t("product.searchPlaceholder")}
+              aria-label={t("product.searchPlaceholder")}
+              onChange={(e) => setQuery(e.target.value)}
+              style={{ flex: "1 1 100%" }}
+            />
+            <select
+              value={filterTier}
+              aria-label={t("product.allTiers")}
+              onChange={(e) => setFilterTier(e.target.value)}
+              style={{ flex: "1 1 0", minWidth: 0 }}
+            >
+              <option value="">{t("product.allTiers")}</option>
+              {[...tiers]
+                .sort((a, b) => a.sortOrder - b.sortOrder)
+                .map((tr) => (
+                  <option key={tr.id} value={tr.id}>
+                    {tr.label}
+                  </option>
+                ))}
+            </select>
+            <select
+              value={sort}
+              aria-label={t("product.sortBy")}
+              onChange={(e) => setSort(e.target.value as SortKey)}
+              style={{ flex: "1 1 0", minWidth: 0 }}
+            >
+              {SORT_KEYS.map((k) => (
+                <option key={k} value={k}>
+                  {t(`product.sort.${k}`)}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : null}
         <input
           ref={fileRef}
           type="file"
@@ -142,7 +190,12 @@ export function ProductsTab(): ReactNode {
           </div>
 
           <div className="card">
-            {products.map((product) => {
+            {shown.length === 0 ? (
+              <p className="faint" style={{ margin: 0, textAlign: "center" }}>
+                {t("product.noMatches")}
+              </p>
+            ) : null}
+            {shown.map((product) => {
               const cost = totalUnitCost(product.cost);
               const margin = cost === 0 ? null : product.sellingPriceCents - cost;
               return (

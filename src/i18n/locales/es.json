@@ -239,7 +239,18 @@
     "inferred": "Columnas deducidas",
     "unknownColumns": "Columnas ignoradas",
     "importErrors": "{{count}} filas con problemas",
-    "exportHint": "Este es el archivo que lee Booth Mode."
+    "exportHint": "Este es el archivo que lee Booth Mode.",
+    "searchPlaceholder": "Buscar productos…",
+    "allTiers": "Todos los tiers",
+    "sortBy": "Ordenar",
+    "noMatches": "Ningún producto coincide.",
+    "sort": {
+      "name": "Nombre A–Z",
+      "price": "Precio (mayor→menor)",
+      "margin": "Margen (mayor→menor)",
+      "cost": "Costo (mayor→menor)",
+      "tier": "Tier"
+    }
   },
   "tier": {
     "title": "Tiers",

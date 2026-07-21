@@ -239,7 +239,18 @@
     "inferred": "Inferred columns",
     "unknownColumns": "Ignored columns",
     "importErrors": "{{count}} rows had problems",
-    "exportHint": "This is the file Booth Mode reads."
+    "exportHint": "This is the file Booth Mode reads.",
+    "searchPlaceholder": "Search products…",
+    "allTiers": "All tiers",
+    "sortBy": "Sort",
+    "noMatches": "No products match.",
+    "sort": {
+      "name": "Name A–Z",
+      "price": "Price (high→low)",
+      "margin": "Margin (high→low)",
+      "cost": "Cost (high→low)",
+      "tier": "Tier"
+    }
   },
   "tier": {
     "title": "Tiers",
