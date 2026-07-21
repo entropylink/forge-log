@@ -77,13 +77,17 @@ input[inputmode="numeric"] {
   height: 100%;
   max-width: 980px;
   margin: 0 auto;
+  /* Keep clear of a landscape notch on the side. */
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
 }
 
 .topbar {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 14px;
+  /* Clear the status bar / notch under viewport-fit=cover. */
+  padding: calc(10px + env(safe-area-inset-top, 0)) 14px 10px;
   border-bottom: 1px solid var(--line);
   background: var(--surface);
   flex: 0 0 auto;
@@ -621,6 +625,17 @@ input[type="range"] {
   border-radius: 5px;
   border: 1px solid currentColor;
   white-space: nowrap;
+  flex: 0 0 auto;
+  max-width: 55%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* User text never escapes its box — a long unbroken token breaks instead of
+   overflowing when the box narrows. */
+.product-row .grow,
+.product-row .grow > span {
+  overflow-wrap: anywhere;
 }
 
 .tier-dot {
@@ -670,6 +685,37 @@ input[type="range"] {
 
 .kpi .k-value.pos {
   color: var(--ok);
+}
+
+/* --- responsive: tablets & landscape ------------------------------------- */
+
+/* Tablets (iPad portrait and up): a touch more room and denser summaries. */
+@media (min-width: 720px) {
+  .main {
+    padding: 20px;
+  }
+  .kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Landscape phones are short: reclaim vertical space. */
+@media (orientation: landscape) and (max-height: 540px) {
+  .topbar {
+    padding-top: calc(6px + env(safe-area-inset-top, 0));
+    padding-bottom: 6px;
+  }
+  .main {
+    padding: 10px 12px;
+  }
+  .card {
+    padding: 11px;
+    margin-bottom: 8px;
+  }
+  .tabbar button {
+    min-height: 46px;
+    font-size: 0.82rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
