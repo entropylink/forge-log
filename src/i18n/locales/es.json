@@ -23,6 +23,8 @@
     "required": "Requerido",
     "invalidAmount": "Monto inválido",
     "invalidVariant": "Un nombre de variante no puede empezar y terminar con «__».",
+    "importError": "Falló la importación: {{error}}",
+    "saveError": "No se pudo guardar: {{error}}",
     "unknown": "Desconocido",
     "none": "Ninguno",
     "search": "Buscar",

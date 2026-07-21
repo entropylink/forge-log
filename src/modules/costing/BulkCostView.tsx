@@ -321,7 +321,7 @@ export function BulkCostView(): ReactNode {
         />
       ) : null}
 
-      <Toast message={toast} />
+      <Toast toast={toast} />
     </>
   );
 }

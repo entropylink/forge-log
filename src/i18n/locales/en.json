@@ -23,6 +23,8 @@
     "required": "Required",
     "invalidAmount": "Invalid amount",
     "invalidVariant": "A variant name cannot start and end with “__”.",
+    "importError": "Import failed: {{error}}",
+    "saveError": "Save failed: {{error}}",
     "unknown": "Unknown",
     "none": "None",
     "search": "Search",

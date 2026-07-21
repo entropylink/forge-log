@@ -170,7 +170,7 @@ export function SettingsTab(): ReactNode {
       {showMachines ? <MachinesSheet onClose={() => setShowMachines(false)} /> : null}
       {showMaterials ? <MaterialsSheet onClose={() => setShowMaterials(false)} /> : null}
 
-      <Toast message={toast} />
+      <Toast toast={toast} />
     </>
   );
 }

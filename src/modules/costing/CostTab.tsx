@@ -6,9 +6,10 @@
 //
 // Every figure comes from lib/costing. This file does no arithmetic.
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useRef, useState, type ReactNode } from "react";
 import { db, newId } from "../../lib/dexie";
 import { breakdownToUnitCost, computeCosting, type CostingInput } from "../../lib/costing";
+import type { CostingLine } from "../../core-data/types";
 import { machineLabel } from "../../lib/catalog";
 import {
   useActiveMachines,
@@ -76,9 +77,28 @@ function SingleCostView(): ReactNode {
   const [productId, setProductId] = useState<string | null>(null);
   const [input, setInput] = useState<CostingInput>(EMPTY_INPUT);
   const [showRate, setShowRate] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const saved = useCostingForProduct(productId);
   const product = (products ?? []).find((p) => p.id === productId) ?? null;
+
+  // Selecting a product loads its saved costing input back into the form (the
+  // record now stores the full input). Guarded by a ref so a slow load for an
+  // earlier selection can't clobber a newer one.
+  const selectedRef = useRef<string | null>(null);
+  function selectProduct(id: string | null): void {
+    selectedRef.current = id;
+    setProductId(id);
+    setInput(EMPTY_INPUT);
+    if (!id) return;
+    void db.costings
+      .where("productId")
+      .equals(id)
+      .first()
+      .then((existing) => {
+        if (selectedRef.current === id && existing?.input) setInput(existing.input);
+      });
+  }
 
   const result = useMemo(
     () => computeCosting(input, materials ?? [], machineRates),
@@ -94,27 +114,47 @@ function SingleCostView(): ReactNode {
   const patch = (over: Partial<CostingInput>): void => setInput({ ...input, ...over });
 
   async function saveToProduct(): Promise<void> {
-    if (!product) return;
-    const cost = breakdownToUnitCost(result.breakdown);
+    // Re-entrancy guard: a double-tap on the Save button (easy on a touch
+    // screen) would otherwise run two saves; the second, seeing saved?.id still
+    // undefined, mints a fresh newId and writes a duplicate Costing row.
+    if (!product || saving) return;
+    setSaving(true);
+    const b = result.breakdown;
+    const cost = breakdownToUnitCost(b);
 
-    await db.products.update(product.id, { cost });
-    await db.costings.put({
-      id: saved?.id ?? newId("cost"),
-      productId: product.id,
-      lines: [
-        ...input.materialLines.map((l) => ({
-          type: "material" as const,
-          qty: l.usagePct,
-          unitCostCents: 0,
-        })),
-      ],
-      marginPct: input.marginPct,
-      computed: {
-        costCents: result.unitCostCents,
-        suggestedPriceCents: result.suggestedPriceCents ?? 0,
-      },
-    });
-    showToast(t("cost.saved", { name: product.name }));
+    // Faithful, type-tagged breakdown (setup folds into labor) for any consumer
+    // of the synced Costing record — no longer material-only-and-zeroed.
+    const lines: CostingLine[] = (
+      [
+        ["material", b.materialCents],
+        ["machineTime", b.machineCents],
+        ["labor", b.laborCents + b.setupCents],
+        ["consumable", b.consumableCents],
+        ["packaging", b.packagingCents],
+      ] as const
+    )
+      .filter(([, cents]) => cents > 0)
+      .map(([type, cents]) => ({ type, qty: 1, unitCostCents: cents }));
+
+    try {
+      await db.products.update(product.id, { cost });
+      await db.costings.put({
+        id: saved?.id ?? newId("cost"),
+        productId: product.id,
+        input, // the full editor input, so re-opening reloads it exactly
+        lines,
+        marginPct: input.marginPct,
+        computed: {
+          costCents: result.unitCostCents,
+          suggestedPriceCents: result.suggestedPriceCents ?? 0,
+        },
+      });
+      showToast(t("cost.saved", { name: product.name }));
+    } catch (e) {
+      showToast(t("common.saveError", { error: e instanceof Error ? e.message : String(e) }), "error");
+    } finally {
+      setSaving(false);
+    }
   }
 
   const usd = result.suggestedPriceCents === null ? null : formatUSD(result.suggestedPriceCents, usdRate);
@@ -128,10 +168,7 @@ function SingleCostView(): ReactNode {
           <select
             id="c-product"
             value={productId ?? ""}
-            onChange={(e) => {
-              setProductId(e.target.value || null);
-              setInput(EMPTY_INPUT);
-            }}
+            onChange={(e) => selectProduct(e.target.value || null)}
           >
             <option value="">{t("cost.pickProduct")}</option>
             {products.map((p) => (
@@ -356,7 +393,7 @@ function SingleCostView(): ReactNode {
             </button>
             <button
               className="btn grow primary"
-              disabled={result.unitCostCents === 0}
+              disabled={result.unitCostCents === 0 || saving}
               onClick={() => void saveToProduct()}
             >
               {t("cost.saveToProduct")}
@@ -383,7 +420,7 @@ function SingleCostView(): ReactNode {
         </Sheet>
       ) : null}
 
-      <Toast message={toast} />
+      <Toast toast={toast} />
     </>
   );
 }
