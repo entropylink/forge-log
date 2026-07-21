@@ -225,13 +225,24 @@ describe("machine catalog", () => {
     expect(machines.length).toBeGreaterThanOrEqual(35);
   });
 
-  it("leaves specs null rather than inventing them", () => {
-    // Both of the vendor's own machines are in this state.
+  it("ships the vendor's own machines with sourced starting specs, still unverified", () => {
+    // v2 filled these from sourced specs (xTool M2 laser bed, Cameo 5α width),
+    // but they stay unverified until the user confirms — the app still asks.
     const m2 = machines.find((m) => m.id === "xtool-m2");
     const alpha = machines.find((m) => m.id === "cameo-5-alpha");
-    expect(m2?.bedW).toBeNull();
-    expect(alpha?.bedW).toBeNull();
+    expect(m2?.bedW).toBe(426);
+    expect(m2?.bedH).toBe(320);
+    expect(alpha?.bedW).toBe(305);
+    expect(m2?.specsVerified).toBe(false);
     expect(needsSpecConfirmation(m2!)).toBe(true);
+    expect(needsSpecConfirmation(alpha!)).toBe(true);
+  });
+
+  it("still leaves genuinely unsourced specs null rather than inventing them", () => {
+    // The honesty principle holds wherever a spec could not be sourced.
+    const nulls = machines.filter((m) => m.bedW === null);
+    expect(nulls.length).toBeGreaterThan(0);
+    for (const m of nulls) expect(needsSpecConfirmation(m)).toBe(true);
   });
 
   it("carries the slug the shared template joins on", () => {

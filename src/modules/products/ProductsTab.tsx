@@ -435,12 +435,20 @@ function ProductForm({
       .filter((v) => v !== "");
     const list = variants.length > 0 ? variants : ["—"];
 
+    // Variant names become stockByVariant keys → Firestore field names on sync.
+    // Firestore rejects names matching /^__.*__$/, so block them here.
+    if (list.some((v) => /^__.*__$/.test(v))) return setError(t("common.invalidVariant"));
+
     const record: Product = {
       id: product?.id ?? newId("prod"),
       sku: sku.trim(),
       name: name.trim(),
       variants: list,
-      tierId,
+      // tierId is a required field every consumer joins on, and Booth Mode's form
+      // enforces it. On a fresh Forge install with no tiers the select is empty
+      // and tierId would be "", which then syncs across as an untiered product.
+      // Fall back to the same "sin-tier" sentinel both apps' CSV importers use.
+      tierId: tierId || "sin-tier",
       machine: machine || undefined,
       cost: product?.cost ?? {
         materialCents: 0,
