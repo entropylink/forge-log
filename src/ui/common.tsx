@@ -131,6 +131,7 @@ export function Sheet({
   return (
     <div
       className="sheet-backdrop"
+      data-noswipe
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
