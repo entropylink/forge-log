@@ -653,6 +653,14 @@ input[type="range"] {
   border-bottom: 1px solid var(--line);
 }
 
+/* Amber = still to cost, green = costed. Mirrors Booth Mode's plan tint. */
+.product-row.todo {
+  background: color-mix(in srgb, var(--warn) 10%, transparent);
+}
+.product-row.done {
+  background: color-mix(in srgb, var(--ok) 10%, transparent);
+}
+
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
