@@ -120,5 +120,5 @@ product, not a property of the making.
 - Costing lines are entered per-session and saved to the Product's cost
   breakdown. The `Costing` record is stored but not yet reloaded into the form
   for editing.
-- `src/lib/__fixtures__/feria-stock-plan.csv` is the vendor's real catalog with
-  real prices — a test fixture, and this repo is private.
+- `src/lib/__fixtures__/feria-stock-plan.csv` is a sample catalog with
+  representative pricing, used as a test fixture.

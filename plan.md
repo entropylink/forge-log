@@ -105,9 +105,7 @@ Tab bar: **Settings · Cost · Products · Scrap (v1.5) · Bench (v2)** + global
 
 ## 9. Pricing & billing
 
-- **Sub:** ~$6 USD / $119 MXN per month, or annual ×10. Includes Booth Mode module.
-- 14-day full trial, card upfront optional (test both). No permanent free tier (decision: priced from day 1).
-- Comparable anchor: Craftybase $24/mo for costing alone → Forge Log undercuts while bundling more.
+- Subscription model; includes the Booth Mode module. Pricing, trial policy, and competitive positioning are tracked outside this repo.
 
 ## 10. Build phases (plan-then-execute; each phase = one cheap-model session with gate)
 
@@ -138,7 +136,7 @@ Headless-first (abyss-selfqa pattern generalized): Playwright drives the PWA —
 
 ## 13. Success metrics
 
-Francis uses Settings on ≥80% of real cuts within 2 weeks (self-log); 10 external beta makers; ≥25 paying subs in 90 days post-launch = continue; <10 = fold Bench scope down and reassess.
+Settings used on ≥80% of real cuts within 2 weeks (self-log); 10 external beta makers onboarded. Commercial go/no-go thresholds are tracked outside this repo.
 
 ## 14. Open questions
 
